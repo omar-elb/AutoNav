@@ -45,5 +45,19 @@ public class UserDAO {
         }
         return false;
 	}
+	
+	public boolean updateUser(User user) {
+        String sql = "UPDATE users SET username = ?, password = ? WHERE id = ?";
+        try (Connection con = DBConnection.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getPassword());
+            ps.setInt(3, user.getId());
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 }

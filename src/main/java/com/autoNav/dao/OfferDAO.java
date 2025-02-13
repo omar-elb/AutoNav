@@ -3,13 +3,13 @@ package com.autoNav.dao;
 import java.sql.*;
 import java.util.*;
 
-import com.autoNav.model.ShuttleOffer;
+import com.autoNav.model.Offer;
 import com.autoNav.util.DBConnection;
 
-public class ShuttleOfferDAO {
+public class OfferDAO {
 	
-	public List<ShuttleOffer> getAllOffers() {
-        List<ShuttleOffer> offers = new ArrayList<>();
+	public List<Offer> getAllOffers() {
+        List<Offer> offers = new ArrayList<>();
         String sql = "SELECT * FROM shuttle_offers";
         
         try (Connection con = DBConnection.getConnection();
@@ -17,7 +17,7 @@ public class ShuttleOfferDAO {
              ResultSet rs = ps.executeQuery()) {
         	
         	while (rs.next()) {
-                ShuttleOffer offer = new ShuttleOffer();
+                Offer offer = new Offer();
                 offer.setId(rs.getInt("id"));
                 offer.setCompanyId(rs.getInt("company_id"));
                 offer.setStartDate(rs.getDate("start_date"));
@@ -37,8 +37,8 @@ public class ShuttleOfferDAO {
         return offers;
 	}
 	
-	public ShuttleOffer getOfferById(int id) {
-        ShuttleOffer offer = null;
+	public Offer getOfferById(int id) {
+        Offer offer = null;
         String sql = "SELECT * FROM shuttle_offers WHERE id = ?";
         
         try (Connection con = DBConnection.getConnection();
@@ -47,7 +47,7 @@ public class ShuttleOfferDAO {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    offer = new ShuttleOffer();
+                    offer = new Offer();
                     offer.setId(rs.getInt("id"));
                     offer.setCompanyId(rs.getInt("company_id"));
                     offer.setStartDate(rs.getDate("start_date"));
@@ -67,7 +67,36 @@ public class ShuttleOfferDAO {
         return offer;
     }
 	
-	public boolean createOffer(ShuttleOffer offer) {
+	public List<Offer> getOffersByCompanyId(int companyId) {
+	    List<Offer> offers = new ArrayList<>();
+	    String sql = "SELECT * FROM shuttle_offers WHERE company_id = ?";
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement(sql)) {
+	        ps.setInt(1, companyId);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                Offer offer = new Offer();
+	                offer.setId(rs.getInt("id"));
+	                offer.setCompanyId(rs.getInt("company_id"));
+	                offer.setStartDate(rs.getDate("start_date"));
+	                offer.setEndDate(rs.getDate("end_date"));
+	                offer.setDepartureCity(rs.getString("departure_city"));
+	                offer.setArrivalCity(rs.getString("arrival_city"));
+	                offer.setDepartureTime(rs.getString("departure_time"));
+	                offer.setArrivalTime(rs.getString("arrival_time"));
+	                offer.setTargetSubscribers(rs.getInt("target_subscribers"));
+	                offer.setCurrentSubscribers(rs.getInt("current_subscribers"));
+	                offer.setDescription(rs.getString("description"));
+	                offers.add(offer);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return offers;
+	}
+	
+	public boolean createOffer(Offer offer) {
 		String sql = "INSERT INTO shuttle_offers (company_id, start_date, end_date, departure_city, arrival_city, departure_time, arrival_time, target_subscribers, current_subscribers, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection con = DBConnection.getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
@@ -91,7 +120,7 @@ public class ShuttleOfferDAO {
 
 	}
 	
-	public boolean updateOffer(ShuttleOffer offer) {
+	public boolean updateOffer(Offer offer) {
 		String sql = "UPDATE shuttle_offers SET company_id = ?, start_date = ?, end_date = ?, departure_city = ?, arrival_city = ?, departure_time = ?, arrival_time = ?, target_subscribers = ?, current_subscribers = ?, description = ? WHERE id = ?";
 		
 		try (Connection con = DBConnection.getConnection();
