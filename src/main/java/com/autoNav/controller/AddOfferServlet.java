@@ -38,4 +38,46 @@ public class AddOfferServlet extends HttpServlet {
         rd.forward(request, response);
     }
 
+	
+	@Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+    	HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect(request.getContextPath() + "/jsp/login.jsp");
+            return;
+        }
+        User user = (User) session.getAttribute("user");
+        if (!"COMPANY".equalsIgnoreCase(user.getRole())) {
+            response.sendRedirect(request.getContextPath() + "/offers");
+            return;
+        }
+        
+        try {
+            OfferDAO offerDAO = new OfferDAO();
+            Offer offer = new Offer();
+            
+            
+            offer.setDepartureCity(request.getParameter("departureCity"));
+            offer.setArrivalCity(request.getParameter("arrivalCity"));
+            offer.setDepartureTime(request.getParameter("departureTime"));
+            offer.setArrivalTime(request.getParameter("arrivalTime"));
+            offer.setStartDate(java.sql.Date.valueOf(request.getParameter("startDate")));
+            offer.setEndDate(java.sql.Date.valueOf(request.getParameter("endDate")));
+            offer.setTargetSubscribers(Integer.parseInt(request.getParameter("targetSubscribers")));
+            offer.setDescription(request.getParameter("description"));
+            
+            boolean added = offerDAO.createOffer(offer);
+            if (added) {
+                session.setAttribute("message", "Offer added successfully.");
+            } else {
+                session.setAttribute("errorMessage", "Failed to add offer.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.setAttribute("errorMessage", "Error processing add: " + e.getMessage());
+        }
+        response.sendRedirect(request.getContextPath() + "/companyDashboard");
+    }
 }

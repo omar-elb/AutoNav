@@ -21,7 +21,7 @@
         </c:if>
         
         <div style="text-align: right; margin-bottom: 15px;">
-            <a href="${pageContext.request.contextPath}/jsp/addOffer.jsp" class="button">Add New Offer</a>
+            <a href="${pageContext.request.contextPath}/addOffer" class="button">Add New Offer</a>
         </div>
         
         <c:if test="${not empty companyOffers}">
@@ -45,7 +45,7 @@
                             <td>${offer.startDate} - ${offer.endDate}</td>
                             <td>${offer.description}</td>
                             <td>
-                                <a href="${pageContext.request.contextPath}/jsp/updateOffer.jsp?offerId=${offer.id}">Update</a>
+                                <a href="${pageContext.request.contextPath}/updateOffer?offerId=${offer.id}">Update</a>
                                 |
                                 <a href="${pageContext.request.contextPath}/deleteOffer?offerId=${offer.id}" 
                                    onclick="return confirm('Are you sure you want to delete this offer?');">Delete</a>

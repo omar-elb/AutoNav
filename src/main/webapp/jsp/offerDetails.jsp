@@ -13,6 +13,7 @@
             <p>
                 <strong>Route:</strong> ${offer.departureCity} to ${offer.arrivalCity}<br/>
                 <strong>Departure Time:</strong> ${offer.departureTime}<br/>
+                <strong>ArrivalTime Time:</strong> ${offer.arrivalTime}<br/>
                 <strong>Subscription Period:</strong> ${offer.startDate} to ${offer.endDate}<br/>
                 <strong>Description:</strong> ${offer.description}<br/>
                 <strong>Subscribers:</strong> ${offer.currentSubscribers} / ${offer.targetSubscribers}

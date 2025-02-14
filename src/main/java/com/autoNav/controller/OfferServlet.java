@@ -23,33 +23,59 @@ public class OfferServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
-        if (session != null && session.getAttribute("user") != null) {
-            User user = (User) session.getAttribute("user");
-            if ("COMPANY".equalsIgnoreCase(user.getRole())) {
-                response.sendRedirect(request.getContextPath() + "/companyDashboard");
-                return;
-            }
-        }
-        
-        OfferDAO offerDAO = new OfferDAO();
-        List<Offer> offers = offerDAO.getAllOffers();
-        request.setAttribute("offers", offers);
-        
-        if (session != null && session.getAttribute("user") != null) {
-            User user = (User) session.getAttribute("user");
-            SubscriptionDAO subscriptionDAO = new SubscriptionDAO();
-            List<Offer> subscribedOffers = subscriptionDAO.getSubscriptionsByUser(user.getId());
-            Set<Integer> subscribedOfferIds = new HashSet<>();
-            for (Offer subOffer : subscribedOffers) {
-                subscribedOfferIds.add(subOffer.getId());
-            }
-            request.setAttribute("subscribedOfferIds", subscribedOfferIds);
-        }
-        
-        RequestDispatcher rd = request.getRequestDispatcher("/jsp/offers.jsp");
-        rd.forward(request, response);
-    }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    HttpSession session = request.getSession(false);
+
+	    if (session != null && session.getAttribute("user") != null) {
+	        User user = (User) session.getAttribute("user");
+	        if ("COMPANY".equalsIgnoreCase(user.getRole())) {
+	            response.sendRedirect(request.getContextPath() + "/companyDashboard");
+	            return;
+	        }
+	    }
+
+	    String departureCity = request.getParameter("departureCity");
+	    String arrivalCity = request.getParameter("arrivalCity");
+	    String departureTime = request.getParameter("departureTime");
+	    String arrivalTime = request.getParameter("arrivalTime");
+	    String priceParam = request.getParameter("price");
+
+	    Double price = null;
+	    if (priceParam != null && !priceParam.isEmpty()) {
+	        try {
+	            price = Double.parseDouble(priceParam);
+	        } catch (NumberFormatException e) {
+	            request.setAttribute("error", "Invalid price format");
+	        }
+	    }
+
+	    OfferDAO offerDAO = new OfferDAO();
+	    List<Offer> offers;
+	    if (departureCity != null || arrivalCity != null || departureTime != null || arrivalTime != null || price != null) {
+	        offers = offerDAO.searchOffers(departureCity, arrivalCity, departureTime, arrivalTime, price);
+	    } else {
+	        offers = offerDAO.getAllOffers(); 
+	    }
+
+	    request.setAttribute("offers", offers);
+	    
+	    for (Offer oof : offers) {
+	        System.out.println(oof.getDescription());
+	    }
+
+	    if (session != null && session.getAttribute("user") != null) {
+	        User user = (User) session.getAttribute("user");
+	        SubscriptionDAO subscriptionDAO = new SubscriptionDAO();
+	        List<Offer> subscribedOffers = subscriptionDAO.getSubscriptionsByUser(user.getId());
+	        Set<Integer> subscribedOfferIds = new HashSet<>();
+	        for (Offer subOffer : subscribedOffers) {
+	            subscribedOfferIds.add(subOffer.getId());
+	        }
+	        request.setAttribute("subscribedOfferIds", subscribedOfferIds);
+	    }
+
+	    RequestDispatcher rd = request.getRequestDispatcher("/jsp/offers.jsp");
+	    rd.forward(request, response);
+	}
 }

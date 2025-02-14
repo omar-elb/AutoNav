@@ -3,16 +3,16 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <html>
 <head>
-    <title>Update Offer</title>
+    <title>Add Offer</title>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css" />
 </head>
 <body>
     <div class="container">
-        <h2>Update Offer</h2>
+        <h2>Add Offer</h2>
         <c:if test="${not empty errorMessage}">
             <p class="error">${errorMessage}</p>
         </c:if>
-            <form action="${pageContext.request.contextPath}/updateOffer" method="post">
+            <form action="${pageContext.request.contextPath}/addOffer" method="post">
                 <label for="departureCity">Departure City:</label>
                 <input type="text" name="departureCity" id="departureCity" required />
                 
@@ -37,7 +37,7 @@
                 <label for="description">Description:</label>
                 <textarea name="description" id="description" required></textarea>
                 
-                <input type="submit" value="Update Offer" />
+                <input type="submit" value="Add Offer" />
             </form>
         <p>
             <a href="${pageContext.request.contextPath}/companyDashboard">Back to Dashboard</a>

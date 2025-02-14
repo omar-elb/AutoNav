@@ -13,6 +13,7 @@ public class Offer {
 	private String arrivalTime;
 	private int targetSubscribers;
 	private int currentSubscribers;
+	private double price;
 	private String description;
 
 	public int getId() {
@@ -101,6 +102,14 @@ public class Offer {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 }

@@ -29,6 +29,7 @@ public class OfferDAO {
                 offer.setTargetSubscribers(rs.getInt("target_subscribers"));
                 offer.setCurrentSubscribers(rs.getInt("current_subscribers"));
                 offer.setDescription(rs.getString("description"));
+                offer.setPrice(rs.getDouble("price"));
                 offers.add(offer);
             }
         } catch (SQLException e) {
@@ -59,6 +60,7 @@ public class OfferDAO {
                     offer.setTargetSubscribers(rs.getInt("target_subscribers"));
                     offer.setCurrentSubscribers(rs.getInt("current_subscribers"));
                     offer.setDescription(rs.getString("description"));
+                    offer.setPrice(rs.getDouble("price"));
                 }
             }
         } catch (SQLException e) {
@@ -87,12 +89,78 @@ public class OfferDAO {
 	                offer.setTargetSubscribers(rs.getInt("target_subscribers"));
 	                offer.setCurrentSubscribers(rs.getInt("current_subscribers"));
 	                offer.setDescription(rs.getString("description"));
+	                offer.setPrice(rs.getDouble("price"));
 	                offers.add(offer);
 	            }
 	        }
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+	    return offers;
+	}
+	
+	public List<Offer> searchOffers(String departureCity, String arrivalCity, String departureTime, String arrivalTime, Double price) {
+	    List<Offer> offers = new ArrayList<>();
+	    String query = "SELECT * FROM shuttle_offers WHERE 1=1";
+
+	    if (departureCity != null && !departureCity.isEmpty()) {
+	        query += " AND departure_city LIKE ?";
+	    }
+	    if (arrivalCity != null && !arrivalCity.isEmpty()) {
+	        query += " AND arrival_city LIKE ?";
+	    }
+	    if (departureTime != null && !departureTime.isEmpty()) {
+	        query += " AND departure_time >= ?";
+	    }
+	    if (arrivalTime != null && !arrivalTime.isEmpty()) {
+	        query += " AND arrival_time <= ?";
+	    }
+	    if (price != null) {
+	        query += " AND price <= ?";
+	    }
+
+	    try (Connection con = DBConnection.getConnection();
+	         PreparedStatement ps = con.prepareStatement(query)) {
+
+	        int index = 1;
+
+	        if (departureCity != null && !departureCity.isEmpty()) {
+	            ps.setString(index++, "%" + departureCity + "%");
+	        }
+	        if (arrivalCity != null && !arrivalCity.isEmpty()) {
+	            ps.setString(index++, "%" + arrivalCity + "%");
+	        }
+	        if (departureTime != null && !departureTime.isEmpty()) {
+	            ps.setString(index++, departureTime);
+	        }
+	        if (arrivalTime != null && !arrivalTime.isEmpty()) {
+	            ps.setString(index++, arrivalTime);
+	        }
+	        if (price != null) {
+	            ps.setDouble(index++, price);
+	        }
+
+	        ResultSet rs = ps.executeQuery();
+	        while (rs.next()) {
+	            Offer offer = new Offer();
+	            offer.setId(rs.getInt("id"));
+                offer.setCompanyId(rs.getInt("company_id"));
+                offer.setStartDate(rs.getDate("start_date"));
+                offer.setEndDate(rs.getDate("end_date"));
+                offer.setDepartureCity(rs.getString("departure_city"));
+                offer.setArrivalCity(rs.getString("arrival_city"));
+                offer.setDepartureTime(rs.getString("departure_time"));
+                offer.setArrivalTime(rs.getString("arrival_time"));
+                offer.setTargetSubscribers(rs.getInt("target_subscribers"));
+                offer.setCurrentSubscribers(rs.getInt("current_subscribers"));
+                offer.setDescription(rs.getString("description"));
+                offer.setPrice(rs.getDouble("price"));
+                offers.add(offer);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
 	    return offers;
 	}
 	

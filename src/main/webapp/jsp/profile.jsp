@@ -35,9 +35,9 @@
 				<c:when test="${not empty subscriptions}">
 					<ul>
 						<c:forEach var="offer" items="${subscriptions}">
-							<li><strong>${offer.departureCity} to
-									${offer.arrivalCity}</strong><br /> Departure Time:
-								${offer.departureTime}</li>
+							<li>
+							<strong>${offer.departureCity} to ${offer.arrivalCity}</strong><br /> 
+							Departure Time: ${offer.departureTime} - ArrivalTime Time: ${offer.arrivalTime}</li>
 						</c:forEach>
 					</ul>
 				</c:when>
