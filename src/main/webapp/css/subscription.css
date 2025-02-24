@@ -1,0 +1,47 @@
+@charset "UTF-8";
+/* subscription.css */
+body {
+    background: #fffaf0;
+    font-family: 'Lucida Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+p {
+    font-size: 1.1em;
+    margin: 10px 0;
+    color: #555;
+}
+.success {
+    color: #27ae60;
+    background: #e9f7ef;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.error {
+    color: #c0392b;
+    background: #fdecea;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+a {
+    color: #2980b9;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}

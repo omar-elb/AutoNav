@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Subscription Confirmation</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/subscription.css" />
 </head>
 <body>
     <div class="container">

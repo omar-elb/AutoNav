@@ -1,0 +1,17 @@
+@charset "UTF-8";
+/* header.css */
+.nav {
+    background: #34495e;
+    padding: 15px 20px;
+    text-align: center;
+}
+.nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+.nav a:hover {
+    color: #f39c12;
+}

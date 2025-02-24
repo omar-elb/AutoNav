@@ -6,7 +6,7 @@
 <head>
 <title>Register</title>
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/styles.css" />
+	href="${pageContext.request.contextPath}/css/register.css" />
 </head>
 <body>
 	<div class="container">

@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Company Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/companyDashboard.css" />
 </head>
 <body>
     <div class="container">

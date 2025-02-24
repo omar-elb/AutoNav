@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Offer Details</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/offerDetails.css" />
 </head>
 <body>
     <div class="container">

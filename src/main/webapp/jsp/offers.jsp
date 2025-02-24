@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Available Offers</title>
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/styles.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/offers.css" />
 </head>
 <body>
     <div class="container">

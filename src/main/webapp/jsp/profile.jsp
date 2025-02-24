@@ -8,7 +8,7 @@
 <head>
 <title>Your Profile</title>
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/styles.css" />
+	href="${pageContext.request.contextPath}/css/profile.css" />
 </head>
 <body>
 	<div class="container">
