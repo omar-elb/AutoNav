@@ -14,6 +14,7 @@ public class Offer {
 	private int targetSubscribers;
 	private int currentSubscribers;
 	private double price;
+	private int interested;
 	private String description;
 
 	public int getId() {
@@ -110,6 +111,14 @@ public class Offer {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	public int getInterested() {
+		return interested;
+	}
+
+	public void setInterested(int interested) {
+		this.interested = interested;
 	}
 
 }

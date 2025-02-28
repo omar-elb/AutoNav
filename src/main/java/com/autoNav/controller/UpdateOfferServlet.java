@@ -77,7 +77,7 @@ public class UpdateOfferServlet extends HttpServlet {
                 return;
             }
             
-            
+            offer.setCompanyId(user.getId());
             offer.setDepartureCity(request.getParameter("departureCity"));
             offer.setArrivalCity(request.getParameter("arrivalCity"));
             offer.setDepartureTime(request.getParameter("departureTime"));
@@ -85,6 +85,7 @@ public class UpdateOfferServlet extends HttpServlet {
             offer.setStartDate(java.sql.Date.valueOf(request.getParameter("startDate")));
             offer.setEndDate(java.sql.Date.valueOf(request.getParameter("endDate")));
             offer.setTargetSubscribers(Integer.parseInt(request.getParameter("targetSubscribers")));
+            offer.setPrice(Double.parseDouble(request.getParameter("price")));
             offer.setDescription(request.getParameter("description"));
             
             boolean updated = offerDAO.updateOffer(offer);

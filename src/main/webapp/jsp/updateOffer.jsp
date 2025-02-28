@@ -36,6 +36,9 @@
                 <label for="targetSubscribers">Target Subscribers:</label>
                 <input type="text" name="targetSubscribers" id="targetSubscribers" value="${offer.targetSubscribers}" required />
                 
+                <label for="price">Price:</label>
+                <input type="text" name="price" id="price" value ="${offer.price}" required />
+                
                 <label for="description">Description:</label>
                 <textarea name="description" id="description" required>${offer.description}</textarea>
                 

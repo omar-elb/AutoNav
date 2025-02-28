@@ -58,7 +58,7 @@ public class AddOfferServlet extends HttpServlet {
             OfferDAO offerDAO = new OfferDAO();
             Offer offer = new Offer();
             
-            
+            offer.setCompanyId(user.getId());
             offer.setDepartureCity(request.getParameter("departureCity"));
             offer.setArrivalCity(request.getParameter("arrivalCity"));
             offer.setDepartureTime(request.getParameter("departureTime"));
@@ -66,6 +66,7 @@ public class AddOfferServlet extends HttpServlet {
             offer.setStartDate(java.sql.Date.valueOf(request.getParameter("startDate")));
             offer.setEndDate(java.sql.Date.valueOf(request.getParameter("endDate")));
             offer.setTargetSubscribers(Integer.parseInt(request.getParameter("targetSubscribers")));
+            offer.setPrice(Double.parseDouble(request.getParameter("price")));
             offer.setDescription(request.getParameter("description"));
             
             boolean added = offerDAO.createOffer(offer);

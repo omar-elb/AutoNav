@@ -34,6 +34,9 @@
                 <label for="targetSubscribers">Target Subscribers:</label>
                 <input type="text" name="targetSubscribers" id="targetSubscribers" required />
                 
+                <label for="price">Price:</label>
+                <input type="text" name="price" id="price" required />
+                
                 <label for="description">Description:</label>
                 <textarea name="description" id="description" required></textarea>
                 

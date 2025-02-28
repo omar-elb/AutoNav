@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.autoNav.dao.OfferDAO;
+import com.autoNav.dao.OfferInterestDAO;
 import com.autoNav.dao.SubscriptionDAO;
 import com.autoNav.model.Offer;
 import com.autoNav.model.User;
@@ -37,11 +38,18 @@ public class OfferDetailsServlet extends HttpServlet {
                     User user = (User) session.getAttribute("user");
                     SubscriptionDAO subscriptionDAO = new SubscriptionDAO();
                     List<Offer> subscribedOffers = subscriptionDAO.getSubscriptionsByUser(user.getId());
+                    OfferInterestDAO offerInterestDAO = new OfferInterestDAO();
+                    List<Offer> offersInterestedIn = offerInterestDAO.getOfferInterestByUser(user.getId());
                     Set<Integer> subscribedOfferIds = new HashSet<>();
+                    Set<Integer> offersInterestedInIds = new HashSet<>();
                     for (Offer subOffer : subscribedOffers) {
                         subscribedOfferIds.add(subOffer.getId());
                     }
+                    for (Offer intrOffer : offersInterestedIn) {
+                    	offersInterestedInIds.add(intrOffer.getId());
+                    }
                     request.setAttribute("subscribedOfferIds", subscribedOfferIds);
+                    request.setAttribute("offersInterestedInIds", offersInterestedInIds);
                 }               
             } catch (NumberFormatException e) {
                 request.setAttribute("errorMessage", "Invalid offer ID format.");

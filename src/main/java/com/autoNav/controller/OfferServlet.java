@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.autoNav.dao.OfferDAO;
+import com.autoNav.dao.OfferInterestDAO;
 import com.autoNav.dao.SubscriptionDAO;
 import com.autoNav.model.Offer;
 import com.autoNav.model.User;
@@ -59,20 +60,23 @@ public class OfferServlet extends HttpServlet {
 	    }
 
 	    request.setAttribute("offers", offers);
-	    
-	    for (Offer oof : offers) {
-	        System.out.println(oof.getDescription());
-	    }
 
 	    if (session != null && session.getAttribute("user") != null) {
 	        User user = (User) session.getAttribute("user");
 	        SubscriptionDAO subscriptionDAO = new SubscriptionDAO();
-	        List<Offer> subscribedOffers = subscriptionDAO.getSubscriptionsByUser(user.getId());
-	        Set<Integer> subscribedOfferIds = new HashSet<>();
-	        for (Offer subOffer : subscribedOffers) {
-	            subscribedOfferIds.add(subOffer.getId());
-	        }
-	        request.setAttribute("subscribedOfferIds", subscribedOfferIds);
+            List<Offer> subscribedOffers = subscriptionDAO.getSubscriptionsByUser(user.getId());
+            OfferInterestDAO offerInterestDAO = new OfferInterestDAO();
+            List<Offer> offersInterestedIn = offerInterestDAO.getOfferInterestByUser(user.getId());
+            Set<Integer> subscribedOfferIds = new HashSet<>();
+            Set<Integer> offersInterestedInIds = new HashSet<>();
+            for (Offer subOffer : subscribedOffers) {
+                subscribedOfferIds.add(subOffer.getId());
+            }
+            for (Offer intrOffer : offersInterestedIn) {
+            	offersInterestedInIds.add(intrOffer.getId());
+            }
+            request.setAttribute("subscribedOfferIds", subscribedOfferIds);
+            request.setAttribute("offersInterestedInIds", offersInterestedInIds);
 	    }
 
 	    RequestDispatcher rd = request.getRequestDispatcher("/jsp/offers.jsp");

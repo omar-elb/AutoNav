@@ -165,7 +165,7 @@ public class OfferDAO {
 	}
 	
 	public boolean createOffer(Offer offer) {
-		String sql = "INSERT INTO shuttle_offers (company_id, start_date, end_date, departure_city, arrival_city, departure_time, arrival_time, target_subscribers, current_subscribers, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO shuttle_offers (company_id, start_date, end_date, departure_city, arrival_city, departure_time, arrival_time, target_subscribers, description, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection con = DBConnection.getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
 			
@@ -177,8 +177,8 @@ public class OfferDAO {
             ps.setString(6, offer.getDepartureTime());
             ps.setString(7, offer.getArrivalTime());
             ps.setInt(8, offer.getTargetSubscribers());
-            ps.setInt(9, offer.getCurrentSubscribers());
-            ps.setString(10, offer.getDescription());
+            ps.setString(9, offer.getDescription());
+            ps.setDouble(10, offer.getPrice());
             
             return ps.executeUpdate() > 0;
 		}catch (SQLException e) {
@@ -189,7 +189,7 @@ public class OfferDAO {
 	}
 	
 	public boolean updateOffer(Offer offer) {
-		String sql = "UPDATE shuttle_offers SET company_id = ?, start_date = ?, end_date = ?, departure_city = ?, arrival_city = ?, departure_time = ?, arrival_time = ?, target_subscribers = ?, current_subscribers = ?, description = ? WHERE id = ?";
+		String sql = "UPDATE shuttle_offers SET company_id = ?, start_date = ?, end_date = ?, departure_city = ?, arrival_city = ?, departure_time = ?, arrival_time = ?, target_subscribers = ?, description = ?, price = ?  WHERE id = ?";
 		
 		try (Connection con = DBConnection.getConnection();
 	         PreparedStatement ps = con.prepareStatement(sql)) {
@@ -202,8 +202,8 @@ public class OfferDAO {
 			ps.setString(6, offer.getDepartureTime());
 			ps.setString(7, offer.getArrivalTime());
 			ps.setInt(8, offer.getTargetSubscribers());
-			ps.setInt(9, offer.getCurrentSubscribers());
-			ps.setString(10, offer.getDescription());
+			ps.setString(9, offer.getDescription());
+			ps.setDouble(10, offer.getPrice());
 			ps.setInt(11, offer.getId());
 
 			return ps.executeUpdate() > 0;

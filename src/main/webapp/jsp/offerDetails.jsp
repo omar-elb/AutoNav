@@ -18,25 +18,43 @@
                 <strong>Description:</strong> ${offer.description}<br/>
                 <strong>Subscribers:</strong> ${offer.currentSubscribers} / ${offer.targetSubscribers}
             </p>
-            <c:choose>
-                <c:when test="${not empty sessionScope.user}">
-                    <c:choose>
-                        <c:when test="${subscribedOfferIds != null and subscribedOfferIds.contains(offer.id)}">
-                            <button type="button" disabled>Applied</button>
-                        </c:when>
-                        <c:otherwise>
-                            <form action="${pageContext.request.contextPath}/subscribe" method="post">
-                                <input type="hidden" name="offerId" value="${offer.id}" />
-                                <input type="submit" value="Subscribe" />
-                            </form>
-                        </c:otherwise>
-                    </c:choose>
-                </c:when>
-                <c:otherwise>
-                    <a href="${pageContext.request.contextPath}/jsp/login.jsp">Login to Subscribe</a>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
+			<c:choose>
+				<c:when test="${not empty sessionScope.user}">
+					<c:choose>
+						<c:when test="${offer.currentSubscribers == offer.targetSubscribers and offersInterestedInIds != null and offersInterestedInIds.contains(offer.id)}">
+							<p>We have reached the target number of subscribers.<br> You can express your interest in this offer here. </p>
+							<button type="button" disabled>Interested</button>
+						</c:when>
+						<c:when test="${offer.currentSubscribers == offer.targetSubscribers}">
+						    <p>We have reached the target number of subscribers.<br> You can express your interest in this offer here. </p>
+							<form action="${pageContext.request.contextPath}/offerInterest" method="post">
+								<input type="hidden" name="offerId" value="${offer.id}" />
+								<button type="submit">interest</button>
+							</form>
+						</c:when>
+						<c:otherwise>
+							<c:choose>
+								<c:when
+									test="${subscribedOfferIds != null and subscribedOfferIds.contains(offer.id)}">
+									<button type="button" disabled>Applied</button>
+								</c:when>
+								<c:otherwise>
+									<form action="${pageContext.request.contextPath}/subscribe"
+										method="post">
+										<input type="hidden" name="offerId" value="${offer.id}" />
+										<button type="submit">Subscribe</button>
+									</form>
+								</c:otherwise>
+							</c:choose>
+						</c:otherwise>
+					</c:choose>
+				</c:when>
+				<c:otherwise>
+					<a href="${pageContext.request.contextPath}/jsp/login.jsp">Login
+						to Subscribe</a>
+				</c:otherwise>
+			</c:choose>
+		</c:if>
         <c:if test="${not empty errorMessage}">
             <p class="error">${errorMessage}</p>
         </c:if>
